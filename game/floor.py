@@ -7,7 +7,7 @@ class FloorCube(ursina.Entity):
             position=position,
             scale=2,
             model="cube",
-            texture="white_cube",
+            texture="brick",
             collider="box"
         )
 
