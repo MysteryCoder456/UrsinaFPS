@@ -17,7 +17,7 @@ player = Player(ursina.Vec3(0, 10, 0))
 def input(key):
     print(key)
     if key == "left mouse down":
-        b_pos = player.position + ursina.Vec3(0, 1.5, 0)
+        b_pos = player.position + ursina.Vec3(0, 2, 0)
         bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
         ursina.destroy(bullet, delay=2)
 
