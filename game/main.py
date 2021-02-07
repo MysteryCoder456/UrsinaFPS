@@ -6,6 +6,6 @@ from floor import Floor
 app = ursina.Ursina()
 
 floor = Floor()
-player = FirstPersonController(position=ursina.Vec3(-25, 5, -25))
+player = FirstPersonController(position=ursina.Vec3(0, 5, 0))
 
 app.run()
