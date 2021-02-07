@@ -2,6 +2,7 @@ import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
 from floor import Floor
+from player import Player
 from bullet import Bullet
 
 app = ursina.Ursina()
@@ -10,14 +11,7 @@ ursina.window.title = "Ursina FPS"
 ursina.window.exit_button.visible = False
 
 floor = Floor()
-player = FirstPersonController(
-    position=ursina.Vec3(0, 5, 0),
-    model="cube",
-    jump_height=1.5,
-    jump_duration=0.65,
-    origin_y=-2
-)
-player.cursor.color = ursina.color.rgb(255, 0, 0, 122)
+player = Player(ursina.Vec3(0, 10, 0))
 
 
 def input(key):
