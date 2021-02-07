@@ -2,11 +2,11 @@ import ursina
 
 
 class Bullet(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, direction: float):
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float):
         speed = 0.5
         self.velocity = ursina.Vec3(
             ursina.math.sin(ursina.math.radians(direction)),
-            0,
+            ursina.math.sin(ursina.math.radians(x_direction)),
             ursina.math.cos(ursina.math.radians(direction))
         ) * speed
 
