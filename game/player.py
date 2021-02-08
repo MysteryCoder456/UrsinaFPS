@@ -16,7 +16,7 @@ class Player(FirstPersonController):
             parent=ursina.camera.ui,
             position=ursina.Vec2(0.6, -0.45),
             scale=ursina.Vec3(0.1, 0.2, 0.65),
-            rotation=ursina.Vec3(-30, -20, -5),
+            rotation=ursina.Vec3(-20, -20, -5),
             model="cube",
             texture="white_cube",
             color=ursina.color.color(0, 0, 0.4)

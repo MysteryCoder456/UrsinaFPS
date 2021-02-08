@@ -19,3 +19,8 @@ class Bullet(ursina.Entity):
 
     def update(self):
         self.position += self.velocity
+
+        hit_info = self.intersects()
+
+        if hit_info.hit:
+            ursina.destroy(self)
