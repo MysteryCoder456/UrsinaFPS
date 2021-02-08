@@ -23,4 +23,7 @@ class Bullet(ursina.Entity):
         hit_info = self.intersects()
 
         if hit_info.hit:
+            for entity in hit_info.entities:
+                ursina.destroy(entity)
+
             ursina.destroy(self)
