@@ -9,9 +9,12 @@ class Player(FirstPersonController):
             model="cube",
             jump_height=1.5,
             jump_duration=0.65,
-            origin_y=-2
+            origin_y=-2,
+            collider="box"
         )
+
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
+
         gun = ursina.Entity(
             parent=ursina.camera.ui,
             position=ursina.Vec2(0.6, -0.45),
