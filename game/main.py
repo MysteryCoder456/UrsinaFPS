@@ -1,5 +1,4 @@
 import ursina
-from ursina.prefabs.first_person_controller import FirstPersonController
 
 from floor import Floor
 from player import Player
