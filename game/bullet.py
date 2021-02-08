@@ -11,9 +11,9 @@ class Bullet(ursina.Entity):
         x_dir_rad = ursina.math.radians(x_direction)
 
         self.velocity = ursina.Vec3(
-            ursina.math.sin(dir_rad),
+            ursina.math.sin(dir_rad) * ursina.math.cos(x_dir_rad),
             ursina.math.sin(x_dir_rad),
-            ursina.math.cos(dir_rad)
+            ursina.math.cos(dir_rad) * ursina.math.cos(x_dir_rad)
         ) * speed
 
         super().__init__(
