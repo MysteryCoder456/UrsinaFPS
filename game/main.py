@@ -1,4 +1,3 @@
-import socket
 import ursina
 from network import Network
 
