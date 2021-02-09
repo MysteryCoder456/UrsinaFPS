@@ -31,15 +31,37 @@ class Network:
         self.id = self.client.recv(self.recv_size).decode("utf8")
         self.client.send(self.username.encode("utf8"))
 
+    def receive_info(self):
+        try:
+            msg = self.client.recv(self.recv_size)
+        except socket.error as e:
+            print(e)
+
+        if not msg:
+            return None
+
+        msg_decoded = msg.decode("utf8")
+
+        left_bracket_index = msg_decoded.index("{")
+        right_bracket_index = msg_decoded.index("}") + 1
+        msg_decoded = msg_decoded[left_bracket_index:right_bracket_index]
+
+        msg_json = json.loads(msg_decoded)
+
+        return msg_json
+
     def send_info(self, player: Player):
         player_info = {
             "id": self.id,
-            "position": (player.x, player.y),
-            "rotation": (player.world_rotation_y)
+            "username": self.username,
+            "position": (player.world_x, player.world_y, player.world_z),
+            "rotation": (player.world_rotation_y),
+            "joined": False,
+            "left": False
         }
         player_info_encoded = json.dumps(player_info).encode("utf8")
 
         try:
-            self.client.sendall(player_info_encoded)
+            self.client.send(player_info_encoded)
         except socket.error as e:
             print(e)

@@ -1,3 +1,5 @@
+import sys
+import threading
 import ursina
 from network import Network
 
@@ -51,6 +53,44 @@ player = Player(ursina.Vec3(0, 1, 0))
 enemies = []
 
 
+def receive():
+    while True:
+        try:
+            info = n.receive_info()
+        except Exception as e:
+            print(e)
+            continue
+
+        if not info:
+            print("Server has stopped! Exiting...")
+            sys.exit()
+
+        enemy_id = info["id"]
+
+        if info["joined"]:
+            new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id)
+            enemies.append(new_enemy)
+            continue
+
+        enemy = None
+
+        for e in enemies:
+            if e.id == enemy_id:
+                enemy = e
+                break
+
+        if not enemy:
+            continue
+
+        if info["left"]:
+            enemies.remove(enemy)
+            ursina.destroy(enemy)
+            continue
+
+        enemy.world_position = ursina.Vec3(*info["position"])
+        enemy.world_rotation_y = ursina.Vec3(info["rotation"])
+
+
 def update():
     n.send_info(player)
 
@@ -62,4 +102,6 @@ def input(key):
         ursina.destroy(bullet, delay=2)
 
 
+msg_thread = threading.Thread(target=receive, daemon=True)
+msg_thread.start()
 app.run()
