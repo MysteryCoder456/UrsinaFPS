@@ -1,9 +1,46 @@
+import socket
 import ursina
+from network import Network
 
 from floor import Floor
 from player import Player
 from enemy import Enemy
 from bullet import Bullet
+
+
+def valid_addr(ip, port):
+    valid = True
+
+    if len(ip.split(".")) != 4:
+        valid = False
+
+    try:
+        _ = int(port)
+    except ValueError:
+        valid = False
+
+    return valid
+
+
+username = input("Enter your username: ")
+
+while True:
+    server_addr = input("Enter server IP: ")
+    server_port = input("Enter server port: ")
+
+    if valid_addr(server_addr, server_port):
+        server_port = int(server_port)
+        n = Network(server_addr, server_port, username)
+
+        try:
+            n.connect()
+        except ConnectionRefusedError:
+            print("Connection refused! This can be because server hasn't started or has reached player limit.")
+
+        break
+
+    print("\nThe server information you entered was invalid, please try again...")
+
 
 app = ursina.Ursina()
 ursina.window.borderless = False
