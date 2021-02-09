@@ -88,7 +88,7 @@ def receive():
             continue
 
         enemy.world_position = ursina.Vec3(*info["position"])
-        enemy.world_rotation_y = ursina.Vec3(info["rotation"])
+        enemy.rotation_y = info["rotation"]
 
 
 def update():

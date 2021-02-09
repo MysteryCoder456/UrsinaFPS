@@ -53,9 +53,8 @@ class Network:
     def send_info(self, player: Player):
         player_info = {
             "id": self.id,
-            "username": self.username,
             "position": (player.world_x, player.world_y, player.world_z),
-            "rotation": (player.world_rotation_y),
+            "rotation": player.rotation_y,
             "joined": False,
             "left": False
         }
