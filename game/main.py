@@ -11,8 +11,8 @@ ursina.window.title = "Ursina FPS"
 ursina.window.exit_button.visible = False
 
 floor = Floor()
-e1 = Enemy(ursina.Vec3(0, 1, 5))
 player = Player(ursina.Vec3(0, 1, 0))
+enemies = []
 
 
 def input(key):
