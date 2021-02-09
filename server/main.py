@@ -60,7 +60,10 @@ def handle_messages(identifier: str):
             if player_id != identifier:
                 player_info = players[player_id]
                 player_conn: socket.socket = player_info["socket"]
-                player_conn.sendall(msg)
+                try:
+                    player_conn.sendall(msg)
+                except OSError:
+                    pass
 
     print(f"Player {username} with ID {identifier} has left the game...")
     conn.close()
