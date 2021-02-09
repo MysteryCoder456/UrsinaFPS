@@ -6,7 +6,7 @@ from enemy import Enemy
 
 class Bullet(ursina.Entity):
     def __init__(self, position: ursina.Vec3, direction: float, x_direction: float):
-        speed = 0.5
+        speed = 0.7
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
 

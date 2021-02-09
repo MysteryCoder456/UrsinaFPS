@@ -2,7 +2,7 @@ import ursina
 
 
 class Enemy(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, identifier: str):
+    def __init__(self, position: ursina.Vec3, identifier: str, username: str):
         super().__init__(
             position=position,
             model="cube",
@@ -24,9 +24,15 @@ class Enemy(ursina.Entity):
 
         self.health = 100
         self.id = identifier
+        self.username = username
 
     def update(self):
-        color_saturation = 1 - self.health / 100
+        try:
+            color_saturation = 1 - self.health / 100
+        except AttributeError:
+            self.health = 100
+            color_saturation = 1 - self.health / 100
+
         self.color = ursina.color.color(0, color_saturation, 1)
 
         if self.health <= 0:

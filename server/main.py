@@ -111,7 +111,13 @@ def main():
                 player_info = players[player_id]
                 player_conn: socket.socket = player_info["socket"]
                 try:
-                    player_conn.send(json.dumps({"id": new_id, "position": new_player_info["position"], "joined": True, "left": False}).encode("utf8"))
+                    player_conn.send(json.dumps({
+                        "id": new_id,
+                        "username": new_player_info["username"],
+                        "position": new_player_info["position"],
+                        "joined": True,
+                        "left": False
+                    }).encode("utf8"))
                 except OSError:
                     pass
 
@@ -120,7 +126,13 @@ def main():
             if player_id != new_id:
                 player_info = players[player_id]
                 try:
-                    conn.send(json.dumps({"id": player_id, "position": player_info["position"], "joined": True, "left": False}).encode("utf8"))
+                    conn.send(json.dumps({
+                        "id": player_id,
+                        "username": player_info["username"],
+                        "position": player_info["position"],
+                        "joined": True,
+                        "left": False
+                    }).encode("utf8"))
                     time.sleep(0.1)
                 except OSError:
                     pass
