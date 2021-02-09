@@ -24,10 +24,7 @@ class Network:
 
     def connect(self):
         """
-        Connect to the server and get the ID assigned to this client
-
-        Returns:
-            str: unique ID assigned to this client
+        Connect to the server and get a unique identifier
         """
 
         self.client.connect((self.addr, self.port))
