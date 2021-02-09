@@ -2,7 +2,7 @@ import ursina
 
 
 class Enemy(ursina.Entity):
-    def __init__(self, position):
+    def __init__(self, position: ursina.Vec3, identifier: str):
         super().__init__(
             position=position,
             model="cube",
@@ -23,6 +23,7 @@ class Enemy(ursina.Entity):
         )
 
         self.health = 100
+        self.id = identifier
 
     def update(self):
         color_saturation = 1 - self.health / 100

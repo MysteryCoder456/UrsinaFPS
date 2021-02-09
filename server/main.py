@@ -3,6 +3,7 @@ Server script for hosting games
 """
 
 import socket
+import json
 import random
 import threading
 
@@ -49,7 +50,17 @@ def handle_messages(identifier: str):
             break
 
         msg_decoded = msg.decode("utf8")
-        conn.sendall(msg_decoded.encode("utf8"))
+        msg_json = json.loads(msg_decoded)
+        print(f"Received message from player {username} with ID {identifier}")
+
+        players[identifier]["position"] = msg_json["position"]
+        players[identifier]["rotation"] = msg_json["rotation"]
+
+        for player_id in players:
+            if player_id != identifier:
+                player_info = players[player_id]
+                player_conn: socket.socket = player_info["socket"]
+                player_conn.sendall(msg)
 
     print(f"Player {username} with ID {identifier} has left the game...")
     conn.close()

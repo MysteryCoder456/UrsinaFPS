@@ -1,4 +1,7 @@
 import socket
+import json
+
+from player import Player
 
 
 class Network:
@@ -30,3 +33,16 @@ class Network:
         self.client.connect((self.addr, self.port))
         self.id = self.client.recv(self.recv_size).decode("utf8")
         self.client.send(self.username.encode("utf8"))
+
+    def send_info(self, player: Player):
+        player_info = {
+            "id": self.id,
+            "position": (player.x, player.y),
+            "rotation": (player.world_rotation_y)
+        }
+        player_info_encoded = json.dumps(player_info).encode("utf8")
+
+        try:
+            self.client.sendall(player_info_encoded)
+        except socket.error as e:
+            print(e)

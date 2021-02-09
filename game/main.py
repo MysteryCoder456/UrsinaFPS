@@ -51,6 +51,10 @@ player = Player(ursina.Vec3(0, 1, 0))
 enemies = []
 
 
+def update():
+    n.send_info(player)
+
+
 def input(key):
     if key == "left mouse down":
         b_pos = player.position + ursina.Vec3(0, 2, 0)
