@@ -74,6 +74,7 @@ class Network:
         bullet_info = {
             "object": "bullet",
             "position": (bullet.world_x, bullet.world_y, bullet.world_z),
+            "damage": bullet.damage,
             "direction": bullet.direction,
             "x_direction": bullet.x_direction
         }

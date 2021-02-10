@@ -1,11 +1,9 @@
 import random
 import ursina
 
-from enemy import Enemy
-
 
 class Bullet(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float):
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, damage: int = random.randint(10, 25)):
         speed = 35
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
@@ -23,7 +21,7 @@ class Bullet(ursina.Entity):
             scale=0.2
         )
 
-        self.damage = random.randint(10, 25)
+        self.damage = damage
         self.direction = direction
         self.x_direction = x_direction
 
@@ -34,7 +32,9 @@ class Bullet(ursina.Entity):
 
         if hit_info.hit:
             for entity in hit_info.entities:
-                if isinstance(entity, Enemy):
+                try:
                     entity.health -= self.damage
+                except AttributeError:
+                    pass
 
             ursina.destroy(self)

@@ -98,18 +98,20 @@ def receive():
             b_pos = ursina.Vec3(*info["position"])
             b_dir = info["direction"]
             b_x_dir = info["x_direction"]
-            new_bullet = Bullet(b_pos, b_dir, b_x_dir)
+            b_damage = info["damage"]
+            new_bullet = Bullet(b_pos, b_dir, b_x_dir, b_damage)
             ursina.destroy(new_bullet, delay=2)
 
 
 def update():
-    global prev_pos, prev_dir
+    if player.health > 0:
+        global prev_pos, prev_dir
 
-    if prev_pos != player.world_position or prev_dir != player.world_rotation_y:
-        n.send_info(player)
+        if prev_pos != player.world_position or prev_dir != player.world_rotation_y:
+            n.send_info(player)
 
-    prev_pos = player.world_position
-    prev_dir = player.world_rotation_y
+        prev_pos = player.world_position
+        prev_dir = player.world_rotation_y
 
 
 def input(key):

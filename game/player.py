@@ -15,7 +15,7 @@ class Player(FirstPersonController):
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
-        gun = ursina.Entity(
+        self.gun = ursina.Entity(
             parent=ursina.camera.ui,
             position=ursina.Vec2(0.6, -0.45),
             scale=ursina.Vec3(0.1, 0.2, 0.65),
@@ -24,3 +24,15 @@ class Player(FirstPersonController):
             texture="white_cube",
             color=ursina.color.color(0, 0, 0.4)
         )
+
+        self.health = 100
+
+    def death(self):
+        print("Oh no! I'm dead...")
+
+    def update(self):
+        super().update()
+
+        if self.health <= 0:
+            self.death()
+            ursina.destroy(self)
