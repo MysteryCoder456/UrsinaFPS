@@ -2,7 +2,7 @@ import ursina
 
 
 class Enemy(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, identifier: str, username: str):
+    def __init__(self, position: ursina.Vec3, identifier: str, username: str, target: ursina.Entity):
         super().__init__(
             position=position,
             model="cube",
@@ -13,7 +13,7 @@ class Enemy(ursina.Entity):
             scale=ursina.Vec3(1, 2, 1)
         )
 
-        gun = ursina.Entity(
+        self.gun = ursina.Entity(
             parent=self,
             position=ursina.Vec3(0.55, 0.5, 0.6),
             scale=ursina.Vec3(0.1, 0.2, 0.65),
@@ -22,9 +22,19 @@ class Enemy(ursina.Entity):
             color=ursina.color.color(0, 0, 0.4)
         )
 
+        self.name_tag = ursina.Text(
+            parent=self,
+            text=username,
+            position=ursina.Vec3(0, 1.3, 0),
+            scale=ursina.Vec2(5, 3),
+            billboard=True,
+            origin=ursina.Vec2(0, 0)
+        )
+
         self.health = 100
         self.id = identifier
         self.username = username
+        self.target = target
 
     def update(self):
         try:
