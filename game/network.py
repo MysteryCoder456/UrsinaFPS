@@ -2,6 +2,7 @@ import socket
 import json
 
 from player import Player
+from bullet import Bullet
 
 
 class Network:
@@ -53,6 +54,7 @@ class Network:
     def send_info(self, player: Player):
         player_info = {
             "id": self.id,
+            "object": "player",
             "position": (player.world_x, player.world_y, player.world_z),
             "rotation": player.rotation_y,
             "joined": False,
@@ -62,5 +64,20 @@ class Network:
 
         try:
             self.client.send(player_info_encoded)
+        except socket.error as e:
+            print(e)
+
+    def send_bullet(self, bullet: Bullet):
+        bullet_info = {
+            "object": "bullet",
+            "position": (bullet.world_x, bullet.world_y, bullet.world_z),
+            "direction": bullet.direction,
+            "x_direction": bullet.x_direction
+        }
+
+        bullet_info_encoded = json.dumps(bullet_info).encode("utf8")
+
+        try:
+            self.client.send(bullet_info_encoded)
         except socket.error as e:
             print(e)

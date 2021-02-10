@@ -65,30 +65,38 @@ def receive():
             print("Server has stopped! Exiting...")
             sys.exit()
 
-        enemy_id = info["id"]
+        if info["object"] == "player":
+            enemy_id = info["id"]
 
-        if info["joined"]:
-            new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"], player)
-            enemies.append(new_enemy)
-            continue
+            if info["joined"]:
+                new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"], player)
+                enemies.append(new_enemy)
+                continue
 
-        enemy = None
+            enemy = None
 
-        for e in enemies:
-            if e.id == enemy_id:
-                enemy = e
-                break
+            for e in enemies:
+                if e.id == enemy_id:
+                    enemy = e
+                    break
 
-        if not enemy:
-            continue
+            if not enemy:
+                continue
 
-        if info["left"]:
-            enemies.remove(enemy)
-            ursina.destroy(enemy)
-            continue
+            if info["left"]:
+                enemies.remove(enemy)
+                ursina.destroy(enemy)
+                continue
 
-        enemy.world_position = ursina.Vec3(*info["position"])
-        enemy.rotation_y = info["rotation"]
+            enemy.world_position = ursina.Vec3(*info["position"])
+            enemy.rotation_y = info["rotation"]
+
+        elif info["object"] == "bullet":
+            b_pos = ursina.Vec3(*info["position"])
+            b_dir = info["direction"]
+            b_x_dir = info["x_direction"]
+            new_bullet = Bullet(b_pos, b_dir, b_x_dir)
+            ursina.destroy(new_bullet, delay=2)
 
 
 def update():
@@ -99,6 +107,7 @@ def input(key):
     if key == "left mouse down":
         b_pos = player.position + ursina.Vec3(0, 2, 0)
         bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
+        n.send_bullet(bullet)
         ursina.destroy(bullet, delay=2)
 
 

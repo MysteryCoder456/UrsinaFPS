@@ -63,11 +63,13 @@ def handle_messages(identifier: str):
             msg_json = json.loads(msg_decoded)
         except Exception as e:
             print(e)
+            continue
 
         print(f"Received message from player {username} with ID {identifier}")
 
-        players[identifier]["position"] = msg_json["position"]
-        players[identifier]["rotation"] = msg_json["rotation"]
+        if msg_json["object"] == "player":
+            players[identifier]["position"] = msg_json["position"]
+            players[identifier]["rotation"] = msg_json["rotation"]
 
         # Tell other players about player moving
         for player_id in players:
@@ -85,7 +87,7 @@ def handle_messages(identifier: str):
             player_info = players[player_id]
             player_conn: socket.socket = player_info["socket"]
             try:
-                player_conn.send(json.dumps({"id": identifier, "joined": False, "left": True}).encode("utf8"))
+                player_conn.send(json.dumps({"id": identifier, "object": "player", "joined": False, "left": True}).encode("utf8"))
             except OSError:
                 pass
 
@@ -113,6 +115,7 @@ def main():
                 try:
                     player_conn.send(json.dumps({
                         "id": new_id,
+                        "object": "player",
                         "username": new_player_info["username"],
                         "position": new_player_info["position"],
                         "joined": True,
@@ -128,6 +131,7 @@ def main():
                 try:
                     conn.send(json.dumps({
                         "id": player_id,
+                        "object": "player",
                         "username": player_info["username"],
                         "position": player_info["position"],
                         "joined": True,
@@ -140,12 +144,11 @@ def main():
         # Add new player to players list, effectively allowing it to receive messages from other players
         players[new_id] = new_player_info
 
-        # Start thread to recieve messages from client
+        # Start thread to receive messages from client
         msg_thread = threading.Thread(target=handle_messages, args=(new_id,), daemon=True)
         msg_thread.start()
 
         print(f"New connection from {addr}, assigned ID: {new_id}...")
-
 
 
 if __name__ == "__main__":

@@ -24,6 +24,8 @@ class Bullet(ursina.Entity):
         )
 
         self.damage = random.randint(10, 25)
+        self.direction = direction
+        self.x_direction = x_direction
 
     def update(self):
         self.position += self.velocity
