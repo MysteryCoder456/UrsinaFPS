@@ -1,4 +1,5 @@
 import sys
+import socket
 import threading
 import ursina
 from network import Network
@@ -32,11 +33,23 @@ while True:
     if valid_addr(server_addr, server_port):
         server_port = int(server_port)
         n = Network(server_addr, server_port, username)
+        n.settimeout(5)
+
+        error_occurred = False
 
         try:
             n.connect()
         except ConnectionRefusedError:
             print("Connection refused! This can be because server hasn't started or has reached player limit.")
+            error_occurred = True
+        except socket.timeout:
+            print("Server took too long to respond, please try again...")
+            error_occurred = True
+        finally:
+            n.settimeout(None)
+
+        if error_occurred:
+            continue
 
         break
 
@@ -50,6 +63,8 @@ ursina.window.exit_button.visible = False
 
 floor = Floor()
 player = Player(ursina.Vec3(0, 1, 0))
+prev_pos = player.world_position
+prev_dir = player.world_rotation_y
 enemies = []
 
 
@@ -100,7 +115,13 @@ def receive():
 
 
 def update():
-    n.send_info(player)
+    global prev_pos, prev_dir
+
+    if prev_pos != player.world_position or prev_dir != player.world_rotation_y:
+        n.send_info(player)
+
+    prev_pos = player.world_position
+    prev_dir = player.world_rotation_y
 
 
 def input(key):

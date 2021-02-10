@@ -23,6 +23,9 @@ class Network:
         self.recv_size = 2048
         self.id = 0
 
+    def settimeout(self, value):
+        self.client.settimeout(value)
+
     def connect(self):
         """
         Connect to the server and get a unique identifier
