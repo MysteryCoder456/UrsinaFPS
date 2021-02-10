@@ -10,51 +10,39 @@ from enemy import Enemy
 from bullet import Bullet
 
 
-def valid_addr(ip, port):
-    valid = True
-
-    if len(ip.split(".")) != 4:
-        valid = False
-
-    try:
-        _ = int(port)
-    except ValueError:
-        valid = False
-
-    return valid
-
-
 username = input("Enter your username: ")
 
 while True:
     server_addr = input("Enter server IP: ")
     server_port = input("Enter server port: ")
 
-    if valid_addr(server_addr, server_port):
+    try:
         server_port = int(server_port)
-        n = Network(server_addr, server_port, username)
-        n.settimeout(5)
+    except ValueError:
+        print("\nThe port you entered was not a number, try again with a valid port...")
+        continue
 
-        error_occurred = False
+    n = Network(server_addr, server_port, username)
+    n.settimeout(5)
 
-        try:
-            n.connect()
-        except ConnectionRefusedError:
-            print("Connection refused! This can be because server hasn't started or has reached player limit.")
-            error_occurred = True
-        except socket.timeout:
-            print("Server took too long to respond, please try again...")
-            error_occurred = True
-        finally:
-            n.settimeout(None)
+    error_occurred = False
 
-        if error_occurred:
-            continue
+    try:
+        n.connect()
+    except ConnectionRefusedError:
+        print("\nConnection refused! This can be because server hasn't started or has reached it's player limit.")
+        error_occurred = True
+    except socket.timeout:
+        print("\nServer took too long to respond, please try again...")
+        error_occurred = True
+    except socket.gaierror:
+        print("\nThe IP address you entered is invalid, please try again with a valid address...")
+        error_occurred = True
+    finally:
+        n.settimeout(None)
 
+    if not error_occurred:
         break
-
-    print("\nThe server information you entered was invalid, please try again...")
-
 
 app = ursina.Ursina()
 ursina.window.borderless = False
