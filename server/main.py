@@ -55,9 +55,12 @@ def handle_messages(identifier: str):
 
         msg_decoded = msg.decode("utf8")
 
-        left_bracket_index = msg_decoded.index("{")
-        right_bracket_index = msg_decoded.index("}") + 1
-        msg_decoded = msg_decoded[left_bracket_index:right_bracket_index]
+        try:
+            left_bracket_index = msg_decoded.index("{")
+            right_bracket_index = msg_decoded.index("}") + 1
+            msg_decoded = msg_decoded[left_bracket_index:right_bracket_index]
+        except ValueError:
+            continue
 
         try:
             msg_json = json.loads(msg_decoded)
