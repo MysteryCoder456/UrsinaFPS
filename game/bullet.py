@@ -17,7 +17,7 @@ class Bullet(ursina.Entity):
         super().__init__(
             position=position + self.velocity / speed,
             model="sphere",
-            collider="sphere",
+            collider="box",
             scale=0.2
         )
 
