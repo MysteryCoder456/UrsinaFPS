@@ -5,6 +5,7 @@ import ursina
 from network import Network
 
 from floor import Floor
+from map import Map
 from player import Player
 from enemy import Enemy
 from bullet import Bullet
@@ -50,6 +51,7 @@ ursina.window.title = "Ursina FPS"
 ursina.window.exit_button.visible = False
 
 floor = Floor()
+map = Map()
 player = Player(ursina.Vec3(0, 1, 0))
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y

@@ -7,10 +7,11 @@ class Player(FirstPersonController):
         super().__init__(
             position=position,
             model="cube",
-            jump_height=1.5,
-            jump_duration=0.65,
+            jump_height=2.5,
+            jump_duration=0.4,
             origin_y=-2,
-            collider="box"
+            collider="box",
+            speed=7
         )
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
