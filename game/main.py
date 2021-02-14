@@ -75,6 +75,7 @@ def receive():
 
             if info["joined"]:
                 new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"])
+                new_enemy.health = info["health"]
                 enemies.append(new_enemy)
                 continue
 

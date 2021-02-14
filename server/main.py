@@ -73,8 +73,7 @@ def handle_messages(identifier: str):
         if msg_json["object"] == "player":
             players[identifier]["position"] = msg_json["position"]
             players[identifier]["rotation"] = msg_json["rotation"]
-        elif msg_json["object"] == "health_update":
-            players[msg_json["id"]]["health"] = msg_json["health"]
+            players[identifier]["health"] = msg_json["health"]
 
         # Tell other players about player moving
         for player_id in players:
