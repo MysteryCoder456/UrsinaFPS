@@ -73,6 +73,8 @@ def handle_messages(identifier: str):
         if msg_json["object"] == "player":
             players[identifier]["position"] = msg_json["position"]
             players[identifier]["rotation"] = msg_json["rotation"]
+        elif msg_json["object"] == "health_update":
+            players[msg_json["id"]]["health"] = msg_json["health"]
 
         # Tell other players about player moving
         for player_id in players:
@@ -108,7 +110,7 @@ def main():
         new_id = generate_id(players, MAX_PLAYERS)
         conn.send(new_id.encode("utf8"))
         username = conn.recv(MSG_SIZE).decode("utf8")
-        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0}
+        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 100}
 
         # Tell existing players about new player
         for player_id in players:
@@ -121,6 +123,7 @@ def main():
                         "object": "player",
                         "username": new_player_info["username"],
                         "position": new_player_info["position"],
+                        "health": new_player_info["health"],
                         "joined": True,
                         "left": False
                     }).encode("utf8"))
@@ -137,6 +140,7 @@ def main():
                         "object": "player",
                         "username": player_info["username"],
                         "position": player_info["position"],
+                        "health": player_info["health"],
                         "joined": True,
                         "left": False
                     }).encode("utf8"))

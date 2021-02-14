@@ -61,6 +61,7 @@ class Network:
             "id": self.id,
             "position": (player.world_x, player.world_y, player.world_z),
             "rotation": player.rotation_y,
+            "health": player.health,
             "joined": False,
             "left": False
         }

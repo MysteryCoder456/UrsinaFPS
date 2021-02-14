@@ -2,7 +2,7 @@ import ursina
 
 
 class Enemy(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, identifier: str, username: str, target: ursina.Entity):
+    def __init__(self, position: ursina.Vec3, identifier: str, username: str):
         super().__init__(
             position=position,
             model="cube",
@@ -34,7 +34,6 @@ class Enemy(ursina.Entity):
         self.health = 100
         self.id = identifier
         self.username = username
-        self.target = target
 
     def update(self):
         try:

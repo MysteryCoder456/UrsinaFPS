@@ -74,7 +74,7 @@ def receive():
             enemy_id = info["id"]
 
             if info["joined"]:
-                new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"], player)
+                new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"])
                 enemies.append(new_enemy)
                 continue
 
@@ -142,6 +142,11 @@ def input(key):
         ursina.destroy(bullet, delay=2)
 
 
-msg_thread = threading.Thread(target=receive, daemon=True)
-msg_thread.start()
-app.run()
+def main():
+    msg_thread = threading.Thread(target=receive, daemon=True)
+    msg_thread.start()
+    app.run()
+
+
+if __name__ == "__main__":
+    main()
