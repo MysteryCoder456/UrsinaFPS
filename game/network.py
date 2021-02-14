@@ -2,6 +2,7 @@ import socket
 import json
 
 from player import Player
+from enemy import Enemy
 from bullet import Bullet
 
 
@@ -54,10 +55,10 @@ class Network:
 
         return msg_json
 
-    def send_info(self, player: Player):
+    def send_player(self, player: Player):
         player_info = {
-            "id": self.id,
             "object": "player",
+            "id": self.id,
             "position": (player.world_x, player.world_y, player.world_z),
             "rotation": player.rotation_y,
             "joined": False,
@@ -83,5 +84,19 @@ class Network:
 
         try:
             self.client.send(bullet_info_encoded)
+        except socket.error as e:
+            print(e)
+
+    def send_health(self, player: Enemy):
+        health_info = {
+            "object": "health_update",
+            "id": player.id,
+            "health": player.health
+        }
+
+        health_info_encoded = json.dumps(health_info).encode("utf8")
+
+        try:
+            self.client.send(health_info_encoded)
         except socket.error as e:
             print(e)

@@ -101,8 +101,26 @@ def receive():
             b_dir = info["direction"]
             b_x_dir = info["x_direction"]
             b_damage = info["damage"]
-            new_bullet = Bullet(b_pos, b_dir, b_x_dir, b_damage)
+            new_bullet = Bullet(b_pos, b_dir, b_x_dir, n, b_damage, slave=True)
             ursina.destroy(new_bullet, delay=2)
+
+        elif info["object"] == "health_update":
+            enemy_id = info["id"]
+
+            enemy = None
+
+            if enemy_id == n.id:
+                enemy = player
+            else:
+                for e in enemies:
+                    if e.id == enemy_id:
+                        enemy = e
+                        break
+
+            if not enemy:
+                continue
+
+            enemy.health = info["health"]
 
 
 def update():
@@ -110,7 +128,7 @@ def update():
         global prev_pos, prev_dir
 
         if prev_pos != player.world_position or prev_dir != player.world_rotation_y:
-            n.send_info(player)
+            n.send_player(player)
 
         prev_pos = player.world_position
         prev_dir = player.world_rotation_y
@@ -119,7 +137,7 @@ def update():
 def input(key):
     if key == "left mouse down" and player.health > 0:
         b_pos = player.position + ursina.Vec3(0, 2, 0)
-        bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
+        bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
         n.send_bullet(bullet)
         ursina.destroy(bullet, delay=2)
 
