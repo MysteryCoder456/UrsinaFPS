@@ -27,13 +27,17 @@ class Player(FirstPersonController):
         )
 
         self.health = 100
+        self.death_message_shown = False
 
     def death(self):
+        self.death_message_shown = True
+
         ursina.destroy(self.gun)
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
         self.world_position = ursina.Vec3(0, 7, -35)
         self.cursor.color = ursina.color.rgb(0, 0, 0, a=0)
+
         ursina.Text(
             text="You are dead!",
             origin=ursina.Vec2(0, 0),
@@ -42,6 +46,7 @@ class Player(FirstPersonController):
 
     def update(self):
         if self.health <= 0:
-            self.death()
+            if not self.death_message_shown:
+                self.death()
         else:
             super().update()

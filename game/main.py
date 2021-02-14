@@ -117,7 +117,7 @@ def update():
 
 
 def input(key):
-    if key == "left mouse down":
+    if key == "left mouse down" and player.health > 0:
         b_pos = player.position + ursina.Vec3(0, 2, 0)
         bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
         n.send_bullet(bullet)
