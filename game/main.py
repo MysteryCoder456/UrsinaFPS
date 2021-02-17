@@ -56,7 +56,7 @@ map = Map()
 sky = ursina.Entity(
     model="sphere",
     texture=os.path.join("assets", "sky.png"),
-    scale=999,
+    scale=9999,
     double_sided=True
 )
 player = Player(ursina.Vec3(0, 1, 0))
