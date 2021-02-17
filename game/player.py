@@ -13,7 +13,6 @@ class Player(FirstPersonController):
             collider="box",
             speed=7
         )
-
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
         self.gun = ursina.Entity(
@@ -24,6 +23,23 @@ class Player(FirstPersonController):
             model="cube",
             texture="white_cube",
             color=ursina.color.color(0, 0, 0.4)
+        )
+
+        self.healthbar_pos = ursina.Vec2(0, 0.45)
+        self.healthbar_size = ursina.Vec2(0.8, 0.04)
+        self.healthbar_bg = ursina.Entity(
+            parent=ursina.camera.ui,
+            model="quad",
+            color=ursina.color.rgb(255, 0, 0),
+            position=self.healthbar_pos,
+            scale=self.healthbar_size
+        )
+        self.healthbar = ursina.Entity(
+            parent=ursina.camera.ui,
+            model="quad",
+            color=ursina.color.rgb(0, 255, 0),
+            position=self.healthbar_pos,
+            scale=self.healthbar_size
         )
 
         self.health = 100
@@ -45,6 +61,8 @@ class Player(FirstPersonController):
         )
 
     def update(self):
+        self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
+
         if self.health <= 0:
             if not self.death_message_shown:
                 self.death()

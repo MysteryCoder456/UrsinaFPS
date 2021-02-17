@@ -53,7 +53,7 @@ ursina.window.exit_button.visible = False
 
 floor = Floor()
 map = Map()
-sky = ursina.Sky(texture=os.path.join("assets", "sky.jpg"))
+sky = ursina.Sky(texture=os.path.join("assets", "sky.jpg"))  # TODO: Get a better sky texture
 player = Player(ursina.Vec3(0, 1, 0))
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
