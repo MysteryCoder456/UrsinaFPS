@@ -11,6 +11,7 @@ class Wall(ursina.Entity):
             model="cube",
             origin_y=-0.5
         )
+        self.texture.filtering = None
         self.collider = ursina.BoxCollider(self, size=ursina.Vec3(1, 2, 1))
 
 
