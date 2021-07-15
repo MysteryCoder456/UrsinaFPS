@@ -7,8 +7,8 @@ class Wall(ursina.Entity):
         super().__init__(
             position=position,
             scale=2,
-            texture=os.path.join("assets", "wall.png"),
             model="cube",
+            texture=os.path.join("assets", "wall.png"),
             origin_y=-0.5
         )
         self.texture.filtering = None
